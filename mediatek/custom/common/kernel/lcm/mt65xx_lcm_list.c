@@ -26,6 +26,7 @@ extern LCM_DRIVER lg4571_lcm_drv;
 extern LCM_DRIVER lvds_wsvga_lcm_drv;
 extern LCM_DRIVER lvds_wsvga_ti_lcm_drv;
 extern LCM_DRIVER nt35565_3d_lcm_drv;
+extern LCM_DRIVER otm8009a_dsi_6575_lcm_drv;
 extern LCM_DRIVER r61581_dbi_jingdongfang_lcm_drv;
 
 LCM_DRIVER* lcm_driver_list[] = 
@@ -136,6 +137,10 @@ LCM_DRIVER* lcm_driver_list[] =
 
 #if defined(NT35565_3D)
 	&nt35565_3d_lcm_drv,
+#endif
+
+#if defined(OTM8009A_DSI_6575)
+	&otm8009a_dsi_6575_lcm_drv,
 #endif
 
 #if defined(R61581_DBI_JINGDONGFANG)
