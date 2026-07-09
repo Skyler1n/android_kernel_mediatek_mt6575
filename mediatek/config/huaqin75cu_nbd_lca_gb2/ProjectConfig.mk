@@ -160,7 +160,7 @@ CUSTOM_KERNEL_SUB_BACKUP_IMGSENSOR =
 
 #CUSTOM_KERNEL_SOUND = amp_6329pmic_spk
 
-CUSTOM_KERNEL_TOUCHPANEL = GT818B 
+CUSTOM_KERNEL_TOUCHPANEL = msg2133 
 	# default settings: generic
 	# candidate settings: generic;eeti_pcap7200
 	# select the panel used by certain project.
