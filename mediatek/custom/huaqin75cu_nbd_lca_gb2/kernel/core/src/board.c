@@ -1044,14 +1044,15 @@ EXPORT_SYMBOL(mt_wifi_power_off);
 
 struct msdc_hw msdc1_hw = {
     .clk_src        = 1,
-    .cmd_edge       = MSDC_SMPL_FALLING,
-    .data_edge      = MSDC_SMPL_FALLING,
-    .clk_drv        = 0,
-    .cmd_drv        = 0,
-    .dat_drv        = 0,
+    .cmd_edge       = MSDC_SMPL_RISING,
+    .data_edge      = MSDC_SMPL_RISING,
+    .clk_drv        = 4,
+    .cmd_drv        = 4,
+    .dat_drv        = 4,
     .data_pins      = 4,
     .data_offset    = 0,
-    .flags          = MSDC_SYS_SUSPEND | MSDC_WP_PIN_EN | MSDC_CD_PIN_EN | MSDC_REMOVABLE| MSDC_HIGHSPEED,
+    /* A60+ SD slot is fixed-present in bootloader config; CD/WP block probing here. */
+    .flags          = MSDC_SYS_SUSPEND | MSDC_HIGHSPEED,
 };
 #endif
 #if defined(CFG_DEV_MSDC2)
