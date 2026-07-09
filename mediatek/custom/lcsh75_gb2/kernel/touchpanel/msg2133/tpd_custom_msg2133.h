@@ -55,19 +55,13 @@
         msleep(30);                                                   \
     } while (0)
 
+/* Stock A690 does not reset or power-cycle MSG2133 during suspend/resume. */
 #define MSG2133_BOARD_POWER_OFF()                                     \
     do {                                                             \
-        mt_set_gpio_mode(MSG2133_BOARD_RESET_PIN,                     \
-                         MSG2133_BOARD_GPIO_M_GPIO);                 \
-        mt_set_gpio_dir(MSG2133_BOARD_RESET_PIN, GPIO_DIR_OUT);       \
-        msleep(10);                                                   \
-        mt_set_gpio_out(MSG2133_BOARD_RESET_PIN, GPIO_OUT_ONE);       \
-        msleep(50);                                                   \
-        msleep(10);                                                   \
-        hwPowerDown(MT65XX_POWER_LDO_VGP, "TP");                    \
-        hwPowerDown(MT65XX_POWER_LDO_VCAM_AF, "TP");                \
-        msleep(100);                                                  \
-        msleep(30);                                                   \
+    } while (0)
+
+#define MSG2133_BOARD_RESUME()                                        \
+    do {                                                             \
     } while (0)
 
 #define MSG2133_BOARD_RESET()                                         \

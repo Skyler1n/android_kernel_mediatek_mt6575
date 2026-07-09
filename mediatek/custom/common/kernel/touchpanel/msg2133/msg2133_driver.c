@@ -47,6 +47,14 @@
 #error "MSG2133_BOARD_RESET must be defined in tpd_custom_msg2133.h"
 #endif
 
+#ifndef MSG2133_BOARD_RESUME
+#define MSG2133_BOARD_RESUME()         \
+    do {                               \
+        MSG2133_BOARD_POWER_ON();      \
+        MSG2133_BOARD_RESET();         \
+    } while (0)
+#endif
+
 #ifndef MSG2133_BOARD_PREPARE_EINT
 #error "MSG2133_BOARD_PREPARE_EINT must be defined in tpd_custom_msg2133.h"
 #endif
@@ -443,8 +451,7 @@ static void tpd_suspend(struct early_suspend *h)
 
 static void tpd_resume(struct early_suspend *h)
 {
-    msg2133_power_on();
-    msg2133_reset();
+    MSG2133_BOARD_RESUME();
     tpd_halt = 0;
     mt65xx_eint_unmask(MSG2133_BOARD_EINT_NUM);
 }
