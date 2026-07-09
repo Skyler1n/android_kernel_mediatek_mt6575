@@ -1,8 +1,8 @@
 /*
  * MStar MSG2133 touch panel driver for the MT6575 TPD framework.
  *
- * The Lenovo A60+ stock kernel exposes msg2133 at i2c-0/0-004c. Its bundled
- * driver enables the panel on GPIO125; GPIO86 is left released by stock.
+ * The Lenovo A60+ stock kernel exposes msg2133 at i2c-0/0-004c.
+ * Board GPIO and power sequencing is supplied by the product header.
  */
 
 #include "tpd.h"
@@ -33,13 +33,51 @@
 #define MSG2133_PACKET_ID       0x52
 #define MSG2133_MAX_RAW         2048
 #define MSG2133_MAX_POINTS      2
-#define MSG2133_EN_PIN          125
-#define MSG2133_EN_PIN_M_GPIO   0
 #define MSG2133_POLL_MS         20
-#define MSG2133_EINT_SENSITIVE  0
-#define MSG2133_EINT_DEBOUNCE_EN 0
-#define MSG2133_EINT_DEBOUNCE_CN 0
-#define MSG2133_EINT_POLARITY   1
+
+#ifndef MSG2133_BOARD_POWER_ON
+#error "MSG2133_BOARD_POWER_ON must be defined in tpd_custom_msg2133.h"
+#endif
+
+#ifndef MSG2133_BOARD_POWER_OFF
+#error "MSG2133_BOARD_POWER_OFF must be defined in tpd_custom_msg2133.h"
+#endif
+
+#ifndef MSG2133_BOARD_RESET
+#error "MSG2133_BOARD_RESET must be defined in tpd_custom_msg2133.h"
+#endif
+
+#ifndef MSG2133_BOARD_PREPARE_EINT
+#error "MSG2133_BOARD_PREPARE_EINT must be defined in tpd_custom_msg2133.h"
+#endif
+
+#ifndef MSG2133_BOARD_EINT_NUM
+#error "MSG2133_BOARD_EINT_NUM must be defined in tpd_custom_msg2133.h"
+#endif
+
+#ifndef MSG2133_BOARD_EINT_SENSITIVE
+#error "MSG2133_BOARD_EINT_SENSITIVE must be defined in tpd_custom_msg2133.h"
+#endif
+
+#ifndef MSG2133_BOARD_EINT_DEBOUNCE_EN
+#error "MSG2133_BOARD_EINT_DEBOUNCE_EN must be defined in tpd_custom_msg2133.h"
+#endif
+
+#ifndef MSG2133_BOARD_EINT_DEBOUNCE_CN
+#error "MSG2133_BOARD_EINT_DEBOUNCE_CN must be defined in tpd_custom_msg2133.h"
+#endif
+
+#ifndef MSG2133_BOARD_EINT_POLARITY
+#error "MSG2133_BOARD_EINT_POLARITY must be defined in tpd_custom_msg2133.h"
+#endif
+
+#ifndef MSG2133_BOARD_MAP_X
+#error "MSG2133_BOARD_MAP_X must be defined in tpd_custom_msg2133.h"
+#endif
+
+#ifndef MSG2133_BOARD_MAP_Y
+#error "MSG2133_BOARD_MAP_Y must be defined in tpd_custom_msg2133.h"
+#endif
 
 extern struct tpd_device *tpd;
 extern int tpd_type_cap;
@@ -135,36 +173,18 @@ static int msg2133_i2c_read(unsigned char *packet)
 
 static void msg2133_power_on(void)
 {
-#ifdef MT6575
-    hwPowerOn(MT65XX_POWER_LDO_VGP2, VOL_2800, "TP");
-    hwPowerOn(MT65XX_POWER_LDO_VGP, VOL_3300, "TP");
-#endif
+    MSG2133_BOARD_POWER_ON();
 }
 
-static void msg2133_release_legacy_rst(void)
+static void msg2133_power_off(void)
 {
-    mt_set_gpio_mode(GPIO_CTP_RST_PIN, GPIO_CTP_RST_PIN_M_GPIO);
-    mt_set_gpio_out(GPIO_CTP_RST_PIN, GPIO_OUT_ZERO);
-    mt_set_gpio_dir(GPIO_CTP_RST_PIN, GPIO_DIR_IN);
-    mt_set_gpio_pull_enable(GPIO_CTP_RST_PIN, GPIO_PULL_ENABLE);
-    mt_set_gpio_pull_select(GPIO_CTP_RST_PIN, GPIO_PULL_DOWN);
-}
-
-static void msg2133_enable(int enable)
-{
-    mt_set_gpio_mode(MSG2133_EN_PIN, MSG2133_EN_PIN_M_GPIO);
-    mt_set_gpio_dir(MSG2133_EN_PIN, GPIO_DIR_OUT);
-    mt_set_gpio_out(MSG2133_EN_PIN, enable ? GPIO_OUT_ONE : GPIO_OUT_ZERO);
+    MSG2133_BOARD_POWER_OFF();
 }
 
 static void msg2133_reset(void)
 {
-    msg2133_release_legacy_rst();
-    msg2133_enable(0);
-    msleep(30);
-    msg2133_enable(1);
-    msleep(200);
-    TPD_DMESG("msg2133 reset done: GPIO125 high, legacy GPIO_CTP_RST_PIN released\n");
+    MSG2133_BOARD_RESET();
+    TPD_DMESG("msg2133 board reset done\n");
 }
 
 static int msg2133_parse_packet(unsigned char *packet,
@@ -229,9 +249,8 @@ static int msg2133_parse_packet(unsigned char *packet,
     if (x1 >= MSG2133_MAX_RAW || y1 >= MSG2133_MAX_RAW)
         return -EINVAL;
 
-    points[0].x = (TPD_RES_X - 1) -
-                  ((y1 * (TPD_RES_X - 1)) / (MSG2133_MAX_RAW - 1));
-    points[0].y = (x1 * (TPD_RES_Y - 1)) / (MSG2133_MAX_RAW - 1);
+    points[0].x = MSG2133_BOARD_MAP_X(x1, y1);
+    points[0].y = MSG2133_BOARD_MAP_Y(x1, y1);
 
     if (dx == 0 && dy == 0)
         return 1;
@@ -246,9 +265,8 @@ static int msg2133_parse_packet(unsigned char *packet,
     if (x1 < 0 || x1 >= MSG2133_MAX_RAW || y1 < 0 || y1 >= MSG2133_MAX_RAW)
         return -EINVAL;
 
-    points[1].x = (TPD_RES_X - 1) -
-                  ((y1 * (TPD_RES_X - 1)) / (MSG2133_MAX_RAW - 1));
-    points[1].y = (x1 * (TPD_RES_Y - 1)) / (MSG2133_MAX_RAW - 1);
+    points[1].x = MSG2133_BOARD_MAP_X(x1, y1);
+    points[1].y = MSG2133_BOARD_MAP_Y(x1, y1);
 
     return MSG2133_MAX_POINTS;
 }
@@ -335,7 +353,7 @@ static int touch_event_handler(void *unused)
         input_sync(tpd->dev);
 
 out_unmask:
-        mt65xx_eint_unmask(CUST_EINT_TOUCH_PANEL_NUM);
+        mt65xx_eint_unmask(MSG2133_BOARD_EINT_NUM);
     } while (!kthread_should_stop());
 
     return 0;
@@ -350,7 +368,7 @@ static int msg2133_i2c_detect(struct i2c_client *client, int kind,
 
 static void tpd_eint_interrupt_handler(void)
 {
-    mt65xx_eint_mask(CUST_EINT_TOUCH_PANEL_NUM);
+    mt65xx_eint_mask(MSG2133_BOARD_EINT_NUM);
     tpd_flag = 1;
     wake_up_interruptible(&waiter);
 }
@@ -366,10 +384,7 @@ static int msg2133_i2c_probe(struct i2c_client *client,
     msg2133_power_on();
     msg2133_reset();
 
-    mt_set_gpio_mode(GPIO_CTP_EINT_PIN, GPIO_CTP_EINT_PIN_M_EINT);
-    mt_set_gpio_dir(GPIO_CTP_EINT_PIN, GPIO_DIR_IN);
-    mt_set_gpio_pull_enable(GPIO_CTP_EINT_PIN, GPIO_PULL_ENABLE);
-    mt_set_gpio_pull_select(GPIO_CTP_EINT_PIN, GPIO_PULL_UP);
+    MSG2133_BOARD_PREPARE_EINT();
 
     thread = kthread_run(touch_event_handler, 0, TPD_DEVICE);
     if (IS_ERR(thread)) {
@@ -378,18 +393,18 @@ static int msg2133_i2c_probe(struct i2c_client *client,
         return err;
     }
 
-    mt65xx_eint_set_sens(CUST_EINT_TOUCH_PANEL_NUM, MSG2133_EINT_SENSITIVE);
-    mt65xx_eint_set_hw_debounce(CUST_EINT_TOUCH_PANEL_NUM,
-                                MSG2133_EINT_DEBOUNCE_CN);
-    mt65xx_eint_registration(CUST_EINT_TOUCH_PANEL_NUM,
-                             MSG2133_EINT_DEBOUNCE_EN,
-                             MSG2133_EINT_POLARITY,
+    mt65xx_eint_set_sens(MSG2133_BOARD_EINT_NUM, MSG2133_BOARD_EINT_SENSITIVE);
+    mt65xx_eint_set_hw_debounce(MSG2133_BOARD_EINT_NUM,
+                                MSG2133_BOARD_EINT_DEBOUNCE_CN);
+    mt65xx_eint_registration(MSG2133_BOARD_EINT_NUM,
+                             MSG2133_BOARD_EINT_DEBOUNCE_EN,
+                             MSG2133_BOARD_EINT_POLARITY,
                              tpd_eint_interrupt_handler, 1);
-    mt65xx_eint_unmask(CUST_EINT_TOUCH_PANEL_NUM);
+    mt65xx_eint_unmask(MSG2133_BOARD_EINT_NUM);
 
     TPD_DMESG("msg2133 eint: num=%d sens=%d debounce=%d polarity=%d\n",
-              CUST_EINT_TOUCH_PANEL_NUM, MSG2133_EINT_SENSITIVE,
-              MSG2133_EINT_DEBOUNCE_CN, MSG2133_EINT_POLARITY);
+              MSG2133_BOARD_EINT_NUM, MSG2133_BOARD_EINT_SENSITIVE,
+              MSG2133_BOARD_EINT_DEBOUNCE_CN, MSG2133_BOARD_EINT_POLARITY);
 
     tpd_type_cap = 1;
     tpd_load_status = 1;
@@ -422,9 +437,8 @@ static int tpd_local_init(void)
 static void tpd_suspend(struct early_suspend *h)
 {
     tpd_halt = 1;
-    mt65xx_eint_mask(CUST_EINT_TOUCH_PANEL_NUM);
-    msg2133_enable(0);
-    msg2133_release_legacy_rst();
+    mt65xx_eint_mask(MSG2133_BOARD_EINT_NUM);
+    msg2133_power_off();
 }
 
 static void tpd_resume(struct early_suspend *h)
@@ -432,7 +446,7 @@ static void tpd_resume(struct early_suspend *h)
     msg2133_power_on();
     msg2133_reset();
     tpd_halt = 0;
-    mt65xx_eint_unmask(CUST_EINT_TOUCH_PANEL_NUM);
+    mt65xx_eint_unmask(MSG2133_BOARD_EINT_NUM);
 }
 
 static struct tpd_driver_t tpd_device_driver = {
