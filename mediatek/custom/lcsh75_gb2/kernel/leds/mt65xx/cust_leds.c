@@ -16,11 +16,8 @@ extern int mtkfb_set_backlight_pwm(int div);
 
 unsigned int brightness_mapping(unsigned int level)
 {
-	if(level>=30 && level<=255) { // user changable by using Setting->Display->Brightness
-		return (level-14)/16;
-	}
-	else if(level>0 && level<30) { // used to fade out for 7 seconds before shut down backlight
-		return 0;
+	if(level > 0 && level <= 255) { // user changable by using Setting->Display->Brightness
+		return (level * 17) / 80;
 	}
 	return ERROR_BL_LEVEL;
 }
