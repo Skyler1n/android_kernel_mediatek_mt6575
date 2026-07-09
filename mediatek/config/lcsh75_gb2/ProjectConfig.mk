@@ -63,10 +63,10 @@ CUSTOM_PRELOADER_CUSTOM = custom
 # Customize for UBOOT
 #
 CUSTOM_UBOOT_LCM = hx8369_6575_dsi_hvga
-LCM_WIDTH = 320
+LCM_WIDTH = 480
 
-LCM_HEIGHT = 480
-BOOT_LOGO = hvga
+LCM_HEIGHT = 800
+BOOT_LOGO = wvga
 #
 # Customize for HAL
 #
@@ -135,7 +135,7 @@ CUSTOM_KERNEL_KPD = kpd
 	# candidate settings: kpd
 	# For Keypad
 
-CUSTOM_KERNEL_LCM = hx8369_6575_dsi_hvga
+CUSTOM_KERNEL_LCM = otm8009a_dsi_6575
 
 CUSTOM_KERNEL_LEDS = mt65xx
 
