@@ -135,7 +135,7 @@ CUSTOM_KERNEL_KPD = kpd
 	# candidate settings: kpd
 	# For Keypad
 
-CUSTOM_KERNEL_LCM = hx8369_6575_dsi_hvga
+CUSTOM_KERNEL_LCM = r61581_dbi_jingdongfang
 
 CUSTOM_KERNEL_LEDS = mt65xx
 
