@@ -8,7 +8,7 @@
 *.order
 *.tmp_*
 *.a
-!*.a.cmd
+*.orig
 
 # Kernel build artifacts
 modules.builtin
@@ -20,15 +20,49 @@ Image
 uImage
 *.dtb
 *.dtbo
+*.s
+
+# Kernel build config
+kernel/.config
+kernel/.config.old
+kernel/.version
+kernel/include/config/
+kernel/include/generated/
+kernel/include/linux/autoconf.h
+kernel/mediatek-configs
+
+# Kernel generated files
+kernel/.missing-syscalls.d
+kernel/arch/arm/boot/compressed/
+kernel/arch/arm/kernel/asm-offsets.s
+kernel/drivers/char/consolemap_deftbl.c
+kernel/drivers/char/defkeymap.c
+kernel/drivers/video/logo/logo_*.c
+kernel/kernel/bounds.s
+kernel/kernel/config_data.gz
+kernel/kernel/config_data.h
+kernel/kernel/debug/kdb/gen-kdb_cmds.c
+kernel/kernel/timeconst.h
+kernel/lib/crc32table.h
+kernel/lib/gen_crc32table
+kernel/usr/.initramfs_data.cpio.d
+kernel/usr/gen_init_cpio
+kernel/usr/initramfs_data.cpio
+kernel/scripts/basic/
+kernel/scripts/bin2c
+kernel/scripts/conmakehash
+kernel/scripts/kallsyms
+kernel/scripts/kconfig/conf
+kernel/scripts/mod/
+kernel/scripts/pnmtologo
 
 # Prebuilt kernel binary
 kernel/kernel_*.bin
 
-# Kernel build config cache
-kernel/include/config/
-
-# Prebuilt UBoot
-mediatek/platform/mt6575/uboot/libmt6575.a
-
-# Build output directory
+# Build output directories
+out/
+mediatek/config/out/
 mediatek/custom/out/
+
+# Prebuilt toolchain (not part of source)
+kernel/drivers/video/logo/clut_vga16.c
