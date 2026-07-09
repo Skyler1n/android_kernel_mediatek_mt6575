@@ -21,6 +21,7 @@
 #include <linux/slab.h>
 
 #include <cust_leds.h>
+#include <cust_leds_def.h>
 
 #if defined (CONFIG_ARCH_MT6573)
 #include <mach/mt6573_pwm.h>
@@ -55,8 +56,8 @@
 #define MIN_FRE_OLD_PWM 32 // the min frequence when use old mode pwm by kHz
 #define PWM_DIV_NUM 8
 #define ERROR_BL_LEVEL 0xFFFFFFFF
-#if defined (CONFIG_ARCH_MT6575)
-#define A60P_LCD_BACKLIGHT_GPIO 68
+#ifndef CUST_LEDS_LCD_BACKLIGHT_PWM_PINMUX
+#define CUST_LEDS_LCD_BACKLIGHT_PWM_PINMUX() do { } while (0)
 #endif
 struct nled_setting
 {
@@ -159,16 +160,6 @@ static int brightness_mapto64(int level)
         else
                 return (level >> 3) + 33;
 }
-
-#if defined (CONFIG_ARCH_MT6575)
-static void a60p_lcd_backlight_pwm_pinmux(void)
-{
-	mt_set_gpio_dir(A60P_LCD_BACKLIGHT_GPIO, GPIO_DIR_OUT);
-	mt_set_gpio_pull_enable(A60P_LCD_BACKLIGHT_GPIO, GPIO_PULL_DISABLE);
-	mt_set_gpio_out(A60P_LCD_BACKLIGHT_GPIO, GPIO_OUT_ONE);
-	mt_set_gpio_mode(A60P_LCD_BACKLIGHT_GPIO, GPIO_MODE_01);
-}
-#endif
 
 int find_time_index(int time)
 {	
@@ -634,9 +625,7 @@ static int mt65xx_led_set_cust(struct cust_mt65xx_led *cust, int level)
 					mt_power_off (cust->data);
 				}else
 				{
-					#if defined (CONFIG_ARCH_MT6575)
-					a60p_lcd_backlight_pwm_pinmux();
-					#endif
+					CUST_LEDS_LCD_BACKLIGHT_PWM_PINMUX();
 					level = brightness_mapping(tmp_level);
 					if(level == ERROR_BL_LEVEL)
 						level = brightness_mapto64(tmp_level);
