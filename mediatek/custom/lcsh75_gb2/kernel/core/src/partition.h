@@ -71,6 +71,11 @@ static struct mtd_partition g_pasStatic_Partition[] = {
         .size   = PART_SIZE_EXPDB,
     },   
     { 
+        .name   = "fat",
+        .offset = MTDPART_OFS_APPEND,
+        .size   = PART_SIZE_FAT,
+    },   
+    { 
         .name   = "system",
         .offset = MTDPART_OFS_APPEND,
         .size   = PART_SIZE_ANDROID,

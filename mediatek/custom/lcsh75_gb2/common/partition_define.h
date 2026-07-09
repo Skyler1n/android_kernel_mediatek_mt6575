@@ -19,6 +19,7 @@
 #define PART_SIZE_MISC			(384*KB)
 #define PART_SIZE_LOGO			(3072*KB)
 #define PART_SIZE_EXPDB			(640*KB)
+#define PART_SIZE_FAT			(5120*KB)
 #define PART_SIZE_ANDROID			(302080*KB)
 #define PART_SIZE_CACHE			(61440*KB)
 #define PART_SIZE_USRDATA			(0*KB)
