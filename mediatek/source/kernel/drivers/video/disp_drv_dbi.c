@@ -148,13 +148,24 @@ static DISP_STATUS dbi_init(UINT32 fbVA, UINT32 fbPA, BOOL isLcmInited)
 {
     if (!disp_drv_dbi_init_context()) 
         return DISP_STATUS_NOT_IMPLEMENTED;
+
+    printk("[A60_DBI] dbi_init: isLcmInited=%d lcm=%s type=%d ctrl=%d\n",
+           isLcmInited,
+           (lcm_drv && lcm_drv->name) ? lcm_drv->name : "NULL",
+           lcm_params->type,
+           lcm_params->ctrl);
+
     init_io_pad();
 	init_io_driving_current();
     init_lcd();
     init_assertion_layer(fbVA, fbPA);
 
 
-    if (NULL != lcm_drv->init && !isLcmInited) {
+    if (NULL != lcm_drv->init &&
+        (!isLcmInited ||
+         (lcm_drv->name && !strcmp(lcm_drv->name, "r61581_dbi_jingdongfang")))) {
+        printk("[A60_DBI] calling lcm_init for %s\n",
+               lcm_drv->name ? lcm_drv->name : "NULL");
         lcm_drv->init();
     }
 
@@ -255,4 +266,3 @@ const DISP_DRIVER *DISP_GetDriverDBI()
 
     return &DBI_DISP_DRV;
 }
-
