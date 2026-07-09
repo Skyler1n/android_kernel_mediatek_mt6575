@@ -1,0 +1,34 @@
+# Build artifacts
+*.o
+*.ko
+*.mod.c
+*.o.cmd
+*.cmd
+*.symvers
+*.order
+*.tmp_*
+*.a
+!*.a.cmd
+
+# Kernel build artifacts
+modules.builtin
+Module.symvers
+vmlinux*
+System.map
+zImage
+Image
+uImage
+*.dtb
+*.dtbo
+
+# Prebuilt kernel binary
+kernel/kernel_*.bin
+
+# Kernel build config cache
+kernel/include/config/
+
+# Prebuilt UBoot
+mediatek/platform/mt6575/uboot/libmt6575.a
+
+# Build output directory
+mediatek/custom/out/
