@@ -1,0 +1,14 @@
+#ifndef RCV_CUST_KEYS_H
+#define RCV_CUST_KEYS_H
+
+#include <linux/input.h>
+
+#define RECOVERY_KEY_DOWN     KEY_DOWN
+#define RECOVERY_KEY_VOLDOWN  KEY_VOLUMEDOWN
+#define RECOVERY_KEY_UP       KEY_UP
+#define RECOVERY_KEY_VOLUP    KEY_VOLUMEUP
+#define RECOVERY_KEY_CENTER   KEY_MENU
+#define RECOVERY_KEY_RIGHT    KEY_BACK
+#define RECOVERY_KEY_LEFT     KEY_SEND
+
+#endif /* RCV_CUST_KEYS_H */
