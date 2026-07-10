@@ -9051,6 +9051,30 @@ struct cgroup_subsys cpuacct_subsys = {
 };
 #endif	/* CONFIG_CGROUP_CPUACCT */
 
+/* MTK multimedia modules consume scheduler timing through this ABI. */
+unsigned long long mt_get_thread_cputime(pid_t pid)
+{
+	struct task_struct *task;
+
+	task = pid ? find_task_by_vpid(pid) : current;
+	return task ? task_sched_runtime(task) : 0;
+}
+EXPORT_SYMBOL(mt_get_thread_cputime);
+
+unsigned long long mt_get_cpu_idle(int cpu)
+{
+	u64 *unused = NULL;
+
+	return get_cpu_idle_time_us(cpu, unused);
+}
+EXPORT_SYMBOL(mt_get_cpu_idle);
+
+unsigned long long mt_sched_clock(void)
+{
+	return sched_clock();
+}
+EXPORT_SYMBOL(mt_sched_clock);
+
 #ifndef CONFIG_SMP
 
 void synchronize_sched_expedited(void)
