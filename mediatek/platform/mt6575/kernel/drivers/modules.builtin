@@ -1,4 +1,5 @@
 kernel/../mediatek/platform/mt6575/kernel/drivers/i2c/i2c.ko
+kernel/../mediatek/platform/mt6575/kernel/drivers/jpeg/jpeg_driver.ko
 kernel/../mediatek/platform/mt6575/kernel/drivers/keypad/kpd.ko
 kernel/../mediatek/platform/mt6575/kernel/drivers/mmc-host/dbg.ko
 kernel/../mediatek/platform/mt6575/kernel/drivers/mmc-host/sd.ko
