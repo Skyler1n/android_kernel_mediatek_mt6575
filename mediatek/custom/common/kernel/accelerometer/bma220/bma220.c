@@ -35,6 +35,7 @@
 #include <linux/hwmsen_dev.h>
 #include <linux/sensors_io.h>
 #include <linux/hwmsen_helper.h>
+#include <cust_bma220.h>
 #include "bma220.h"
 
 #ifdef MT6575
@@ -122,16 +123,6 @@ static GSENSOR_VECTOR3D gsensor_gain;
 #define GSE_FUN()                printk(KERN_INFO GSE_TAG "%s\n", __FUNCTION__)
 #define GSE_ERR(fmt, args...)    printk(KERN_ERR GSE_TAG "%s %d : " fmt, __FUNCTION__, __LINE__, ##args)
 #define GSE_LOG(fmt, args...)    printk(KERN_INFO GSE_TAG fmt, ##args)
-
-/*
- * A60+ BMA220 has a board-level offset/scale on the reported X axis.  Without
- * this correction a flat phone reports about -3.1m/s^2 on X and is often
- * mistaken for right landscape.  Values are in the mg units reported to hwmsen.
- */
-#define BMA220_X_OFFSET_MG        2900
-#define BMA220_X_SCALE_NUM        1000
-#define BMA220_X_SCALE_DEN        1265
-#define BMA220_Z_OFFSET_MG        1200
 
 static struct data_resolution bma220_data_resolution[] = {
 	{{ 62, 3 }, BMA220_SENSITIVITY_2G},
@@ -394,9 +385,9 @@ static int BMA220_ReadSensorData(struct i2c_client *client, char *buf, int bufsi
 	acc[BMA220_AXIS_Z] = acc[BMA220_AXIS_Z] * GRAVITY_EARTH_1000 /
 		obj->reso->sensitivity;
 
-	acc[BMA220_AXIS_X] = (acc[BMA220_AXIS_X] + BMA220_X_OFFSET_MG) *
-		BMA220_X_SCALE_NUM / BMA220_X_SCALE_DEN;
-	acc[BMA220_AXIS_Z] -= BMA220_Z_OFFSET_MG;
+	acc[BMA220_AXIS_X] = (acc[BMA220_AXIS_X] + CUST_BMA220_X_OFFSET_MG) *
+		CUST_BMA220_X_SCALE_NUM / CUST_BMA220_X_SCALE_DEN;
+	acc[BMA220_AXIS_Z] -= CUST_BMA220_Z_OFFSET_MG;
 
 	snprintf(buf, bufsize, "%04x %04x %04x", acc[BMA220_AXIS_X],
 		 acc[BMA220_AXIS_Y], acc[BMA220_AXIS_Z]);
