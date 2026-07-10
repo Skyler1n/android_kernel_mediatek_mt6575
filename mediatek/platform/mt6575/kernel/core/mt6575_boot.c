@@ -135,6 +135,14 @@ unsigned int get_chip_code(void)
 {   
     return DRV_Reg32(APHW_CODE);
 }
+EXPORT_SYMBOL(get_chip_code);
+
+/* devinfo.ko queries the hardware subcode during probe. */
+unsigned int get_chip_hw_subcode(void)
+{
+    return DRV_Reg32(APHW_SUBCODE);
+}
+EXPORT_SYMBOL(get_chip_hw_subcode);
 
 CHIP_VER get_chip_eco_ver(void)
 {   
@@ -371,4 +379,3 @@ EXPORT_SYMBOL(is_meta_mode);
 EXPORT_SYMBOL(is_advanced_meta_mode);
 EXPORT_SYMBOL(get_boot_mode);
 EXPORT_SYMBOL(boot_register_md_func);
-
