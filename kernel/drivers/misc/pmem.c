@@ -892,6 +892,13 @@ unsigned int pmem_user_v2p(unsigned int va)
     return 0;
 }
 
+/* mt6575_vcodec_kernel_driver resolves user buffers through this helper. */
+unsigned int pmem_user_v2p_video(unsigned int va)
+{
+    return pmem_user_v2p(va);
+}
+EXPORT_SYMBOL(pmem_user_v2p_video);
+
 #define BUFFER_SIZE_FOR_FLUSH_ALL 864*480*2 //829440 
 //#define BUFFER_SIZE_FOR_FLUSH_ALL 1024 //829440 
 int __pmem_cache_maint(const void *start, size_t size, int direction)
