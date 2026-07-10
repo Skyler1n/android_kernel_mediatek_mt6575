@@ -17,7 +17,24 @@
 #ifndef __HWMSEN_CUSTOM_H__ 
 #define __HWMSEN_CUSTOM_H__
 
-#define MAX_NUM_SENSORS                 6
+#define MAX_NUM_SENSORS                 3
+
+#define CUST_ACCELEROMETER_NAME         "BMA222E 3-axis Accelerometer"
+#define CUST_ACCELEROMETER_VENDOR       "Bosch"
+#define CUST_ACCELEROMETER_MAX_RANGE    32.0f
+#define CUST_ACCELEROMETER_RESOLUTION   (4.0f/1024.0f)
+#define CUST_ACCELEROMETER_POWER        (130.0f/1000.0f)
+
+#define CUST_PROXIMITY_NAME             "TMD2771 Proximity Sensor"
+#define CUST_PROXIMITY_VENDOR           "TAOS"
+#define CUST_PROXIMITY_MAX_RANGE        1.0f
+#define CUST_PROXIMITY_RESOLUTION       1.0f
+#define CUST_PROXIMITY_POWER            0.13f
+
+#define CUST_LIGHT_NAME                 "TMD2771 Light Sensor"
+#define CUST_LIGHT_VENDOR               "TAOS"
+#define CUST_LIGHT_MAX_RANGE            10240.0f
+#define CUST_LIGHT_RESOLUTION           1.0f
+#define CUST_LIGHT_POWER                0.13f
 
 #endif
-

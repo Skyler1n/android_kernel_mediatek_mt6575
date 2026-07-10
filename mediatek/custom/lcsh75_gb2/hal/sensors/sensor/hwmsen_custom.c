@@ -19,77 +19,39 @@
 
 struct sensor_t sSensorList[MAX_NUM_SENSORS] = 
 {
-	{ 
-		.name       = "AMI304 Orientation sensor",
-		.vendor     = "Aichi Steel",
-		.version    = 1,
-		.handle     = ID_ORIENTATION,
-		.type       = SENSOR_TYPE_ORIENTATION,
-		.maxRange   = 360.0f,
-		.resolution = 1.0f,
-		.power      = 0.25f,
-		.reserved   = {}
-	},
-
-	{ 
-		.name       = "AMI304 3-axis Magnetic Field sensor",
-		.vendor     = "Aichi Steel",
-		.version    = 1,
-		.handle     = ID_MAGNETIC,
-		.type       = SENSOR_TYPE_MAGNETIC_FIELD,
-		.maxRange   = 600.0f,
-		.resolution = 0.0016667f,
-		.power      = 0.25f,
-		.reserved   = {}
-	}, 
-
-	
 	{  
-		.name       = "ADXL345 3-axis Accelerometer",
-		.vendor     = "The Android Open Source Project",
+		.name       = CUST_ACCELEROMETER_NAME,
+		.vendor     = CUST_ACCELEROMETER_VENDOR,
 		.version    = 1,
 		.handle     = ID_ACCELEROMETER,
 		.type       = SENSOR_TYPE_ACCELEROMETER,
-		.maxRange   = 32.0f,
-		.resolution = 4.0f/1024.0f,
-		.power      =130.0f/1000.0f,
+		.maxRange   = CUST_ACCELEROMETER_MAX_RANGE,
+		.resolution = CUST_ACCELEROMETER_RESOLUTION,
+		.power      = CUST_ACCELEROMETER_POWER,
 		.reserved   = {}
 	},        
 
 	{ 
-		.name       = "CM3623 Proximity Sensor",
-		.vendor     = "Capella",
+		.name       = CUST_PROXIMITY_NAME,
+		.vendor     = CUST_PROXIMITY_VENDOR,
 		.version    = 1,
 		.handle     = ID_PROXIMITY,
 		.type       = SENSOR_TYPE_PROXIMITY,
-		.maxRange   = 1.00f,
-		.resolution = 1.0f,
-		.power      = 0.13f,
+		.maxRange   = CUST_PROXIMITY_MAX_RANGE,
+		.resolution = CUST_PROXIMITY_RESOLUTION,
+		.power      = CUST_PROXIMITY_POWER,
 		.reserved   = {}
 	},
 
 	{ 
-		.name       = "CM3623 Light Sensor",
-		.vendor     = "Capella",
+		.name       = CUST_LIGHT_NAME,
+		.vendor     = CUST_LIGHT_VENDOR,
 		.version    = 1,
 		.handle     = ID_LIGHT,
 		.type       = SENSOR_TYPE_LIGHT,
-		.maxRange   = 10240.0f,
-		.resolution = 1.0f,
-		.power      = 0.13f,
+		.maxRange   = CUST_LIGHT_MAX_RANGE,
+		.resolution = CUST_LIGHT_RESOLUTION,
+		.power      = CUST_LIGHT_POWER,
 		.reserved   = {}
 	},
-	{ 
-		.name       = "MPU3000  gyroscope Sensor",
-		.vendor     = "Invensensor",
-		.version    = 1,
-		.handle     = ID_GYROSCOPE,
-		.type       = SENSOR_TYPE_GYROSCOPE,
-		.maxRange   = 34.91f,
-		.resolution = 0.0107f,
-		.power      = 6.1f,
-		.reserved   = {}
-	},
-	
 };
-
