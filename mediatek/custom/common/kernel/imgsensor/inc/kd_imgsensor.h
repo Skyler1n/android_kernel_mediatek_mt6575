@@ -81,6 +81,7 @@
 #define OV2640_SENSOR_ID                        0x2642
 #define OV2650_SENSOR_ID                        0x2652
 #define OV3640_SENSOR_ID                        0x364C
+#define OV3660_SENSOR_ID                        0x3660
 #define OV6680_SENSOR_ID                        0x6681
 #define OV7660_SENSOR_ID                        0x7660
 #define OV7670_SENSOR_ID                        0x7673
@@ -142,6 +143,7 @@
 #define HI251_SENSOR_ID                         0x0084
 #define HIVICF_SENSOR_ID                        0x0081
 #define HI704_SENSOR_ID                         0x0096
+#define HI351_SENSOR_ID                         0x00A4
 
 #define IMX058_SENSOR_ID                        0x0058
 #define IMX073_SENSOR_ID                        0x0046
@@ -176,11 +178,13 @@
 #define SENSOR_DRVNAME_OV5642_YUV   "ov5642yuv"
 #define SENSOR_DRVNAME_OV5642_YUV_SWI2C   "ov5642yuvswi2c"
 #define SENSOR_DRVNAME_OV7675_YUV   "ov7675yuv"
+#define SENSOR_DRVNAME_OV3660_YUV     "ov3660yuv"
 #define SENSOR_DRVNAME_IMX073_MIPI_RAW   "imx073mipiraw"
 #define SENSOR_DRVNAME_S5K5CAGX_YUV     "s5k5cagxyuv"
 #define SENSOR_DRVNAME_SIV120B_YUV    "siv120byuv"
 #define SENSOR_DRVNAME_MT9V113_YUV    "mt9v113yuv"
 #define SENSOR_DRVNAME_HI704_YUV    	"hi704yuv"
+#define SENSOR_DRVNAME_HI351_YUV     "hi351yuv"
 #define SENSOR_DRVNAME_MT9V114_YUV    "mt9v114"
 #define SENSOR_DRVNAME_MT9T113_YUV    "mt9t113yuv"
 #define SENSOR_DRVNAME_PAS6180_SERIAL_YUV    "pas6180serialyuv"
@@ -196,5 +200,4 @@ void KD_IMGSENSOR_PROFILE(char *tag);
 #define mDELAY(ms)     mdelay(ms) 
 #define uDELAY(us)       udelay(us) 
 #endif //_KD_IMGSENSOR_H
-
 
