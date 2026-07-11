@@ -399,12 +399,23 @@ u32 pinSet[3][8] = {
                 goto _kdCISModulePowerOn_exit_;
             }                    
 
-         
-        if(TRUE != hwPowerOn(CAMERA_POWER_VCAM_D, VOL_1300,mode_name))     
+		  
+        if (currSensorName && (0 == strcmp(SENSOR_DRVNAME_OV3660_YUV, currSensorName)))
         {
+            PK_DBG("[ON_OV3660YUV case 1.5V]sensorIdx:%d \n", SensorIdx);
+            if(TRUE != hwPowerOn(CAMERA_POWER_VCAM_D, VOL_1500, mode_name))
+            {
+                PK_DBG("[CAMERA SENSOR] Fail to enable digital power\n");
+                goto _kdCISModulePowerOn_exit_;
+            }
+        }
+        else
+        {
+            if(TRUE != hwPowerOn(CAMERA_POWER_VCAM_D, VOL_1300, mode_name))
+            {
                  PK_DBG("[CAMERA SENSOR] Fail to enable digital power\n");
-            //return -EIO;
-            goto _kdCISModulePowerOn_exit_;
+                goto _kdCISModulePowerOn_exit_;
+            }
         }
   
         

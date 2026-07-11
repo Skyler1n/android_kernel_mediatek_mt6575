@@ -1677,16 +1677,13 @@ static kal_uint32 OV3660_Preview(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_windo
 	OV3660_write_cmos_sensor(0x4740,0x20);
 
 
-//uv auto
-/*
-	OV3660_write_cmos_sensor(0x5001,0x83);
+	//uv auto
 	OV3660_write_cmos_sensor(0x5580,0x06);
 	OV3660_write_cmos_sensor(0x5589,0x20);
 	OV3660_write_cmos_sensor(0x558a,0x80);
-	OV3660_write_cmos_sensor(0x558b,0x00);//
-	OV3660_write_cmos_sensor(0x5583,0x48);//42
-	OV3660_write_cmos_sensor(0x5584,0x32); // 2c
-*/
+	OV3660_write_cmos_sensor(0x558b,0x00);
+	OV3660_write_cmos_sensor(0x5583,0x48);
+	OV3660_write_cmos_sensor(0x5584,0x32);
 
 //	OV3660AeEnable(KAL_FALSE);
 
@@ -1837,6 +1834,11 @@ static kal_uint32 OV3660_Capture(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_windo
 	
              OV3660_Capture_Setting();
 		OV3660_capture_pclk_in_M= 48;
+
+		//uv auto for capture
+		OV3660_write_cmos_sensor(0x5580,0x06);
+		OV3660_write_cmos_sensor(0x5583,0x48);
+		OV3660_write_cmos_sensor(0x5584,0x32);
   
 	#if 1
 		OV3660_Set_Dummy(OV3660_Capture_Dummy_Pixels, OV3660_Capture_Dummy_Lines);
