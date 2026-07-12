@@ -1208,7 +1208,7 @@ static OV3660_Capture_Setting(Void)
 {
 
 //	  OV3660_write_cmos_sensor(0x303B, 0x1B); //0X14
-	  OV3660_write_cmos_sensor(0x303c, 0x12); //0X14
+	  OV3660_write_cmos_sensor(0x303c, 0x13);
 
 	//
 	 OV3660_write_cmos_sensor(0x3824, 0x01);
@@ -1616,7 +1616,7 @@ static kal_uint32 OV3660_Preview(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_windo
 
     //1024x768 YUV
 
-	OV3660_write_cmos_sensor(0x303c,0x11); 
+	OV3660_write_cmos_sensor(0x303c,0x12);
 	OV3660_write_cmos_sensor(0x3824,0x02);
 	OV3660_write_cmos_sensor(0x460c,0x22); 	
 
