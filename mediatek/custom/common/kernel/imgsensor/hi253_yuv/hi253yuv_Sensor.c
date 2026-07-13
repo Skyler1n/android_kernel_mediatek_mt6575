@@ -1980,10 +1980,29 @@ UINT32 HI253FeatureControl(MSDK_SENSOR_FEATURE_ENUM FeatureId,
       *pFeatureParaLen=4;
       break; 
     case SENSOR_FEATURE_GET_LENS_DRIVER_ID:
+#ifdef FAKEAF
+      *pFeatureReturnPara32=0x00FE; /* FAKEAF_LENS_ID */
+#else
       // get the lens driver ID from EEPROM or just return LENS_DRIVER_ID_DO_NOT_CARE
       // if EEPROM does not exist in camera module.
       *pFeatureReturnPara32=LENS_DRIVER_ID_DO_NOT_CARE;
+#endif
       *pFeatureParaLen=4;
+      break;
+    case SENSOR_FEATURE_GET_AF_STATUS:
+      *pFeatureReturnPara32=SENSOR_AF_FOCUSED;
+      *pFeatureParaLen=4;
+      break;
+    case SENSOR_FEATURE_GET_AF_INF:
+    case SENSOR_FEATURE_GET_AF_MACRO:
+      *pFeatureReturnPara32=0;
+      *pFeatureParaLen=4;
+      break;
+    case SENSOR_FEATURE_SINGLE_FOCUS_MODE:
+    case SENSOR_FEATURE_CANCEL_AF:
+    case SENSOR_FEATURE_CONSTANT_AF:
+    case SENSOR_FEATURE_MOVE_FOCUS_LENS:
+    case SENSOR_FEATURE_SET_AF_WINDOW:
       break;
     case SENSOR_FEATURE_SET_YUV_CMD:
       HI253YUVSensorSetting((FEATURE_ID)*pFeatureData32, *(pFeatureData32+1));
