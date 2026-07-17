@@ -203,7 +203,8 @@ static void lcm_get_params(LCM_PARAMS *params)
 	params->dsi.horizontal_backporch_word_count = 200;
 	params->dsi.horizontal_frontporch_word_count = 200;
 
-	params->dsi.pll_div1 = 38;
+	/* Official A690 kernel runs this panel at div1=30, div2=1. */
+	params->dsi.pll_div1 = 30;
 	params->dsi.pll_div2 = 1;
 }
 

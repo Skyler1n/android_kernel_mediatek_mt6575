@@ -295,13 +295,13 @@ static int backlight_set_pwm(int pwm_num, u32 level, u32 div)
 	pwm_setting.pwm_no = pwm_num;
 	pwm_setting.mode = PWM_MODE_FIFO; //new mode fifo and periodical mode
 	pwm_setting.clk_div = div;
-	pwm_setting.clk_src = PWM_CLK_NEW_MODE_BLOCK_DIV_BY_1625;
+	pwm_setting.clk_src = PWM_CLK_NEW_MODE_BLOCK;
 	
 	pwm_setting.PWM_MODE_FIFO_REGS.IDLE_VALUE = 0;
 	pwm_setting.PWM_MODE_FIFO_REGS.GUARD_VALUE = 0;
 	pwm_setting.PWM_MODE_FIFO_REGS.STOP_BITPOS_VALUE = 63;
-	pwm_setting.PWM_MODE_FIFO_REGS.HDURATION = 0;
-	pwm_setting.PWM_MODE_FIFO_REGS.LDURATION = 0;
+	pwm_setting.PWM_MODE_FIFO_REGS.HDURATION = 4;
+	pwm_setting.PWM_MODE_FIFO_REGS.LDURATION = 4;
 	pwm_setting.PWM_MODE_FIFO_REGS.GDURATION = 0;
 	pwm_setting.PWM_MODE_FIFO_REGS.WAVE_NUM = 0;
 	
